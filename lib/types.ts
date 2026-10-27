@@ -11,23 +11,42 @@ export type Category =
   | "Food"
   | "Adventure"
   | "Spiritual"
-  | "Photography";
+  | "Photography"
+  | "Artisans & Crafts";
 
 export type Region =
   | "Bengaluru"
   | "Mysuru"
   | "Mangaluru"
-  | "Hubballi"
-  | "Belagavi"
+  | "Uttara Kannada"
+  | "Chikkamagaluru"
+  | "Hassan"
+  | "Shivamogga"
   | "Coorg"
   | "Hampi"
-  | "Chikkamagaluru";
+  | "Hubballi-Dharwad"
+  | "Badami"
+  | "Vijayapura"
+  | "Kalaburagi"
+  | "Chitradurga"
+  | "Belagavi";
 
 export type TravelStyle = "Relaxed" | "Balanced" | "Packed" | "Offbeat";
 
 export type Companion = "Solo" | "Couple" | "Family" | "Friends";
 
-export type City = "Bengaluru" | "Mysuru" | "Mangaluru" | "Hubballi" | "Belagavi";
+export type DietPreference = "Any" | "Vegetarian" | "Pure Veg" | "Non-Veg";
+
+export type StayPreference = "Any" | "Homestay" | "Heritage" | "Budget" | "Comfort" | "Luxury";
+
+export type City =
+  | "Bengaluru"
+  | "Mysuru"
+  | "Mangaluru"
+  | "Hubballi"
+  | "Belagavi"
+  | "Shivamogga"
+  | "Vijayapura";
 
 export type BudgetTierName = "Budget" | "Comfort" | "Luxury";
 
@@ -51,6 +70,13 @@ export interface Place {
   dish_kn: string;
   tip_en: string;
   tip_kn: string;
+  seasonAlert_en?: string;
+  seasonAlert_kn?: string;
+  crowdTip_en?: string;
+  crowdTip_kn?: string;
+  lastVerified?: string;
+  artisanOrHomestay_en?: string;
+  artisanOrHomestay_kn?: string;
 }
 
 export interface Dish {
@@ -60,6 +86,7 @@ export interface Dish {
   desc_en: string;
   desc_kn: string;
   region: Region;
+  diet?: "Veg" | "Non-Veg" | "Sattvic";
 }
 
 export interface Festival {
@@ -70,6 +97,8 @@ export interface Festival {
   months: number[];
   desc_en: string;
   desc_kn: string;
+  timingNote_en?: string;
+  timingNote_kn?: string;
 }
 
 export interface Phrase {
@@ -77,6 +106,7 @@ export interface Phrase {
   kn: string;
   translit: string;
   en: string;
+  category: "greetings" | "directions" | "food" | "shopping" | "emergency" | "culture";
 }
 
 export interface RegionCost {
@@ -95,6 +125,11 @@ export interface Prefs {
   month: number;
   mustVisitIds?: string[];
   seed?: number;
+  adults?: number;
+  kids?: number;
+  seniors?: number;
+  diet?: DietPreference;
+  stayPref?: StayPreference;
 }
 
 export interface Stop {
@@ -104,6 +139,8 @@ export interface Stop {
   durationHours: number;
   why_en: string;
   why_kn: string;
+  distanceFromPrevKm?: number;
+  driveTimeMin?: number;
 }
 
 export interface Day {
@@ -113,6 +150,16 @@ export interface Day {
   theme_kn: string;
   stops: Stop[];
   travelKm: number;
+  transportInfo_en?: {
+    road: string;
+    bus: string;
+    train?: string;
+  };
+  transportInfo_kn?: {
+    road: string;
+    bus: string;
+    train?: string;
+  };
 }
 
 export interface BudgetBreakdown {
@@ -121,6 +168,9 @@ export interface BudgetBreakdown {
   nights: number;
   rooms: number;
   travelers: number;
+  adults: number;
+  kids: number;
+  seniors: number;
   stay: number;
   food: number;
   transport: number;

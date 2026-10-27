@@ -2,16 +2,23 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import {
+  Bus,
+  Calendar,
   Camera,
+  Car,
   Castle,
   Coffee,
   Compass,
   Droplets,
+  Eye,
   Flame,
+  Info,
   Landmark,
   Lightbulb,
   MapPin,
   Mountain,
+  Navigation,
+  Palette,
   PawPrint,
   RefreshCw,
   Route,
@@ -21,6 +28,7 @@ import {
   Sunset,
   Ticket,
   Timer,
+  Train,
   UtensilsCrossed,
   Waves
 } from "lucide-react";
@@ -30,7 +38,18 @@ import { placePhoto } from "@/data/photos";
 import { useLang } from "@/i18n/LangProvider";
 import { dayLabel, formatDuration, formatINR, localizeDigits, localizeTime } from "@/lib/format";
 
-const DAY_COLORS = ["#F5B301", "#10B981", "#0EA5E9", "#FF7A59", "#7C5CFF", "#14B8A6", "#E11D48", "#84CC16"];
+const DAY_COLORS = [
+  "#F5B301",
+  "#10B981",
+  "#0EA5E9",
+  "#FF7A59",
+  "#7C5CFF",
+  "#14B8A6",
+  "#E11D48",
+  "#84CC16",
+  "#F97316",
+  "#06B6D4"
+];
 
 const categoryIcons: Record<Category, typeof Landmark> = {
   Heritage: Castle,
@@ -43,7 +62,8 @@ const categoryIcons: Record<Category, typeof Landmark> = {
   Food: UtensilsCrossed,
   Adventure: Compass,
   Spiritual: Flame,
-  Photography: Camera
+  Photography: Camera,
+  "Artisans & Crafts": Palette
 };
 
 const slotIcons = {
@@ -64,6 +84,7 @@ export function DayCard({ day, index, onSwap }: DayCardProps) {
   const color = DAY_COLORS[index % DAY_COLORS.length];
   const slots: DaySlot[] = ["morning", "afternoon", "evening"];
   const theme = lang === "kn" ? day.theme_kn : day.theme_en;
+  const transport = lang === "kn" ? day.transportInfo_kn : day.transportInfo_en;
 
   return (
     <motion.article
@@ -113,6 +134,30 @@ export function DayCard({ day, index, onSwap }: DayCardProps) {
           </span>
         </div>
       </header>
+
+      {/* Corridor & Transit Information */}
+      {transport ? (
+        <div className="mt-3.5 flex flex-wrap items-center gap-2 rounded-xl border border-white/10 bg-white/[0.025] p-3 text-[11px] text-white/70">
+          <span className="inline-flex items-center gap-1.5 font-semibold text-gold">
+            <Car size={13} aria-hidden="true" />
+            {transport.road}
+          </span>
+          <span className="hidden h-3 w-px bg-white/15 sm:inline" />
+          <span className="inline-flex items-center gap-1.5 text-white/60">
+            <Bus size={13} className="text-teal" aria-hidden="true" />
+            {transport.bus}
+          </span>
+          {transport.train ? (
+            <>
+              <span className="hidden h-3 w-px bg-white/15 sm:inline" />
+              <span className="inline-flex items-center gap-1.5 text-white/60">
+                <Train size={13} className="text-coral" aria-hidden="true" />
+                {transport.train}
+              </span>
+            </>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className="relative mt-5 space-y-5">
         {slots.map((slot) => {
@@ -173,7 +218,11 @@ function StopCard({ stop, stopIndex, dayIndex, color, onSwap }: StopCardProps) {
   const dish = lang === "kn" ? place.dish_kn : place.dish_en;
   const tip = lang === "kn" ? place.tip_kn : place.tip_en;
   const why = lang === "kn" ? stop.why_kn : stop.why_en;
-  const PrimaryIcon = categoryIcons[place.categories[0] ?? "Heritage"];
+  const seasonNote = lang === "kn" ? place.seasonAlert_kn : place.seasonAlert_en;
+  const crowdAdvice = lang === "kn" ? place.crowdTip_kn : place.crowdTip_en;
+  const artisanLink = lang === "kn" ? place.artisanOrHomestay_kn : place.artisanOrHomestay_en;
+
+  const PrimaryIcon = categoryIcons[place.categories[0] ?? "Heritage"] ?? Castle;
 
   return (
     <motion.div
@@ -198,14 +247,21 @@ function StopCard({ stop, stopIndex, dayIndex, color, onSwap }: StopCardProps) {
             </span>
           </div>
           <div className="min-w-0">
-            <h4 className="font-display text-lg font-bold leading-snug text-white sm:text-xl">{name}</h4>
+            <div className="flex flex-wrap items-center gap-2">
+              <h4 className="font-display text-lg font-bold leading-snug text-white sm:text-xl">{name}</h4>
+              {artisanLink ? (
+                <span className="rounded-full border border-gold/40 bg-gold/15 px-2 py-0.5 text-[9px] font-bold text-gold">
+                  GI Tag Craft
+                </span>
+              ) : null}
+            </div>
             <div className="mt-1.5 flex flex-wrap gap-1.5">
               {place.categories.slice(0, 3).map((category) => (
                 <span
                   key={category}
                   className="rounded-full border border-white/10 bg-white/[0.045] px-2 py-0.5 text-[9px] font-semibold text-white/50"
                 >
-                  {t.planner.categories[category]}
+                  {t.planner.categories[category] ?? category}
                 </span>
               ))}
             </div>
@@ -239,6 +295,12 @@ function StopCard({ stop, stopIndex, dayIndex, color, onSwap }: StopCardProps) {
           <Sunrise size={11} style={{ color }} aria-hidden="true" />
           {t.result.stop.start} {localizeTime(stop.startTime, lang)}
         </span>
+        {stop.distanceFromPrevKm ? (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-teal/20 bg-teal/[0.06] px-2.5 py-1 text-teal">
+            <Navigation size={10} aria-hidden="true" />
+            {localizeDigits(stop.distanceFromPrevKm, lang)} {lang === "kn" ? "ಕಿಮೀ ಪ್ರಯಾಣ" : "km drive"} (~{localizeDigits(stop.driveTimeMin ?? 0, lang)} {lang === "kn" ? "ನಿಮಿಷ" : "min"})
+          </span>
+        ) : null}
       </div>
 
       <div className="mt-3 rounded-xl border border-gold/20 bg-gold/[0.06] px-3 py-2.5">
@@ -267,6 +329,23 @@ function StopCard({ stop, stopIndex, dayIndex, color, onSwap }: StopCardProps) {
           <p className="mt-1 text-xs leading-relaxed text-white/65">{tip}</p>
         </div>
       </div>
+
+      {seasonNote || crowdAdvice ? (
+        <div className="mt-2.5 grid gap-2 sm:grid-cols-2 text-[10px]">
+          {seasonNote ? (
+            <div className="flex items-start gap-1.5 rounded-lg border border-amber-500/20 bg-amber-500/[0.04] p-2 text-amber-200/80">
+              <Calendar size={11} className="mt-0.5 shrink-0 text-amber-400" aria-hidden="true" />
+              <span>{seasonNote}</span>
+            </div>
+          ) : null}
+          {crowdAdvice ? (
+            <div className="flex items-start gap-1.5 rounded-lg border border-blue-500/20 bg-blue-500/[0.04] p-2 text-blue-200/80">
+              <Eye size={11} className="mt-0.5 shrink-0 text-blue-400" aria-hidden="true" />
+              <span>{crowdAdvice}</span>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </motion.div>
   );
 }

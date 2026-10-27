@@ -44,6 +44,7 @@ export function LanguageToggle({ variant = "nav" }: LanguageToggleProps) {
         {t.language.activeEnglish}
       </span>
       <span
+        lang="kn"
         className={`relative z-10 flex h-12 w-1/2 items-center justify-center rounded-full text-sm font-bold tracking-wide transition-colors duration-300 ${
           isEnglish ? "text-white/65" : "text-[#1a1205]"
         }`}

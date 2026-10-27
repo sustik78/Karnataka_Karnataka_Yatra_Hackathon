@@ -26,10 +26,39 @@ export function formatINR(value: number, lang: Lang = "en"): string {
   return `₹${formatNumber(value, lang)}`;
 }
 
+/**
+ * Formats duration cleanly without clumsy decimals like "0.8 hours".
+ * e.g., 0.75h -> 45 min / ೪೫ ನಿಮಿಷ
+ *       0.8h  -> 50 min / ೫೦ ನಿಮಿಷ
+ *       1.5h  -> 1 hr 30 min / ೧ ಗಂ ೩೦ ನಿಮಿಷ
+ *       2h    -> 2 hours / ೨ ಗಂಟೆಗಳು
+ */
 export function formatDuration(hours: number, lang: Lang = "en"): string {
-  const rounded = Math.round(hours * 10) / 10;
-  const text = Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
-  return lang === "kn" ? `${toKannadaDigits(text)} ಗಂಟೆ` : `${text} ${rounded === 1 ? "hour" : "hours"}`;
+  if (hours <= 0) return lang === "kn" ? "೦ ನಿಮಿಷ" : "0 min";
+
+  const totalMinutes = Math.round(hours * 60);
+
+  if (totalMinutes < 60) {
+    // Under 1 hour, show pure minutes (e.g. 45 min, 50 min)
+    return lang === "kn"
+      ? `${toKannadaDigits(totalMinutes)} ನಿಮಿಷ`
+      : `${totalMinutes} min`;
+  }
+
+  const h = Math.floor(totalMinutes / 60);
+  const m = totalMinutes % 60;
+
+  if (m === 0) {
+    if (lang === "kn") {
+      return `${toKannadaDigits(h)} ಗಂಟೆ${h > 1 ? "ಗಳು" : ""}`;
+    }
+    return `${h} ${h === 1 ? "hour" : "hours"}`;
+  }
+
+  if (lang === "kn") {
+    return `${toKannadaDigits(h)} ಗಂ ${toKannadaDigits(m)} ನಿಮಿಷ`;
+  }
+  return `${h} hr ${m} min`;
 }
 
 export function formatTime(totalMinutes: number): string {
@@ -48,7 +77,33 @@ export function dayLabel(day: number, lang: Lang): string {
 export function monthName(month: number, lang: Lang): string {
   const months =
     lang === "kn"
-      ? ["ಜನವರಿ", "ಫೆಬ್ರವರಿ", "ಮಾರ್ಚ್", "ಏಪ್ರಿಲ್", "ಮೇ", "ಜೂನ್", "ಜುಲೈ", "ಆಗಸ್ಟ್", "ಸೆಪ್ಟೆಂಬರ್", "ಅಕ್ಟೋಬರ್", "ನವೆಂಬರ್", "ಡಿಸೆಂಬರ್"]
-      : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      ? [
+          "ಜನವರಿ",
+          "ಫೆಬ್ರವರಿ",
+          "ಮಾರ್ಚ್",
+          "ಏಪ್ರಿಲ್",
+          "ಮೇ",
+          "ಜೂನ್",
+          "ಜುಲೈ",
+          "ಆಗಸ್ಟ್",
+          "ಸೆಪ್ಟೆಂಬರ್",
+          "ಅಕ್ಟೋಬರ್",
+          "ನವೆಂಬರ್",
+          "ಡಿಸೆಂಬರ್"
+        ]
+      : [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ];
   return months[Math.max(0, Math.min(11, month - 1))];
 }

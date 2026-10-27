@@ -37,26 +37,35 @@ const balooTamma = Baloo_Tamma_2({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://karnataka-yatra.vercel.app"),
   title: {
-    default: "Karnataka Yatra — AI Travel Planner",
+    default: "Karnataka Yatra — AI Cultural Travel Planner & Heritage Guide | ಕರ್ನಾಟಕ ಯಾತ್ರೆ",
     template: "%s | Karnataka Yatra"
   },
   description:
-    "Plan a personal Karnataka journey around heritage, wildlife, coast, coffee, temples and food. A bilingual English–Kannada travel planner built for the Kannada Digital Innovation Hackathon 2026.",
+    "Smart Karnataka cultural itinerary planner across 15 heritage circuits, GI crafts, seasonal advisories, local cuisine, transit options and voice phrases. Built for Kannada Digital Innovation Hackathon 2026.",
   applicationName: "Karnataka Yatra",
+  manifest: "/manifest.json",
   authors: [{ name: "Karnataka Yatra" }],
   keywords: [
     "Karnataka tourism",
     "Karnataka travel planner",
     "Kannada travel app",
     "Karnataka itinerary",
+    "Hampi Badami circuit",
+    "Coorg homestays",
+    "Kannada AI assistant",
+    "Channapatna toys",
+    "Jog Falls season",
+    "Mysuru Dasara",
     "ಕರ್ನಾಟಕ ಪ್ರವಾಸ",
-    "ಕರ್ನಾಟಕ ಯಾತ್ರೆ"
+    "ಕರ್ನಾಟಕ ಯಾತ್ರೆ",
+    "ಕನ್ನಡ ಪ್ರವಾಸ ಮಾರ್ಗದರ್ಶಿ"
   ],
   openGraph: {
-    title: "Karnataka Yatra — Your Karnataka, beautifully planned",
+    title: "Karnataka Yatra — AI Cultural Travel Planner & Heritage Guide | ಕರ್ನಾಟಕ ಯಾತ್ರೆ",
     description:
-      "A bilingual Karnataka trip planner with day-by-day routes, local food, festivals and useful Kannada phrases.",
+      "Smart Karnataka cultural itinerary planner across 15 heritage circuits, GI crafts, seasonal advisories, local cuisine, transit options and voice phrases.",
     type: "website",
     locale: "en_IN",
     siteName: "Karnataka Yatra",
@@ -71,8 +80,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Karnataka Yatra — AI Travel Planner",
-    description: "Plan a personal Karnataka journey in English or Kannada.",
+    title: "Karnataka Yatra — AI Cultural Travel Planner & Heritage Guide | ಕರ್ನಾಟಕ ಯಾತ್ರೆ",
+    description:
+      "Smart Karnataka cultural itinerary planner across 15 heritage circuits, GI crafts, seasonal advisories, local cuisine, transit options and voice phrases.",
     images: ["/images/hero/hero-mysuru.jpg"]
   },
   robots: {

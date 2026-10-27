@@ -10,13 +10,18 @@ import {
   Compass,
   Droplets,
   Heart,
+  Home,
+  Info,
   Landmark,
   Leaf,
   Loader2,
   MapPin,
+  Minus,
   Mountain,
+  Palette,
   PartyPopper,
   PawPrint,
+  Plus,
   Scale,
   Shuffle,
   Sparkles,
@@ -30,7 +35,7 @@ import {
 } from "lucide-react";
 import type { CSSProperties, FormEvent } from "react";
 import { useState } from "react";
-import type { Category, City, Companion, Place, Prefs, TravelStyle } from "@/lib/types";
+import type { Category, City, Companion, DietPreference, Place, Prefs, StayPreference, TravelStyle } from "@/lib/types";
 import { CATEGORIES, COMPANIONS, START_CITIES, TRAVEL_STYLES } from "@/data/places";
 import { getTravelerCount } from "@/lib/planner";
 import { useLang } from "@/i18n/LangProvider";
@@ -47,7 +52,8 @@ const interestIcons: Record<Category, typeof Landmark> = {
   Food: UtensilsCrossed,
   Adventure: Compass,
   Spiritual: Sparkles,
-  Photography: Camera
+  Photography: Camera,
+  "Artisans & Crafts": Palette
 };
 
 const styleIcons: Record<TravelStyle, typeof Leaf> = {
@@ -86,11 +92,15 @@ export function PlannerForm({
   const [interestError, setInterestError] = useState(false);
 
   const daysProgress = ((prefs.days - 1) / 9) * 100;
-  const budgetProgress = ((prefs.budget - 3000) / (100000 - 3000)) * 100;
-  const dailyBudget =
-    prefs.budget / Math.max(1, prefs.days) / Math.max(1, getTravelerCount(prefs.companions));
-  const budgetTier = dailyBudget < 4000 ? "Budget" : dailyBudget < 9000 ? "Comfort" : "Luxury";
+  const budgetProgress = ((prefs.budget - 3000) / (200000 - 3000)) * 100;
+  const travelers = getTravelerCount(prefs.companions, prefs);
+  const dailyBudget = prefs.budget / Math.max(1, prefs.days) / Math.max(1, travelers);
+  const budgetTier = dailyBudget < 3800 ? "Budget" : dailyBudget < 8500 ? "Comfort" : "Luxury";
   const hoverMotion = reduceMotion ? {} : { y: -2, scale: 1.015 };
+
+  const adults = prefs.adults ?? (prefs.companions === "Solo" ? 1 : prefs.companions === "Couple" ? 2 : 3);
+  const kids = prefs.kids ?? 0;
+  const seniors = prefs.seniors ?? 0;
 
   const toggleInterest = (category: Category) => {
     const exists = prefs.interests.includes(category);
@@ -99,6 +109,21 @@ export function PlannerForm({
       : [...prefs.interests, category];
     onChange({ interests: next });
     if (next.length > 0) setInterestError(false);
+  };
+
+  const updateAdults = (delta: number) => {
+    const next = Math.max(1, Math.min(15, adults + delta));
+    onChange({ adults: next });
+  };
+
+  const updateKids = (delta: number) => {
+    const next = Math.max(0, Math.min(10, kids + delta));
+    onChange({ kids: next });
+  };
+
+  const updateSeniors = (delta: number) => {
+    const next = Math.max(0, Math.min(8, seniors + delta));
+    onChange({ seniors: next });
   };
 
   const randomize = () => {
@@ -110,12 +135,17 @@ export function PlannerForm({
     onChange({
       interests: shuffled.slice(0, interestCount),
       days: 2 + Math.floor(Math.random() * 7),
-      budget: 12000 + Math.floor(Math.random() * 58) * 1000,
+      budget: 15000 + Math.floor(Math.random() * 65) * 1000,
       style: styles[Math.floor(Math.random() * styles.length)],
       companions: companions[Math.floor(Math.random() * companions.length)],
       startCity: cities[Math.floor(Math.random() * cities.length)],
       month: 1 + Math.floor(Math.random() * 12),
-      seed: Math.floor(Math.random() * 10000)
+      seed: Math.floor(Math.random() * 10000),
+      adults: 2,
+      kids: 0,
+      seniors: 0,
+      diet: "Any",
+      stayPref: "Any"
     });
     setInterestError(false);
   };
@@ -129,6 +159,34 @@ export function PlannerForm({
     setInterestError(false);
     onSubmit();
   };
+
+  // Month season advisory helper
+  const getMonthAdvisory = (m: number) => {
+    if (m >= 6 && m <= 8) {
+      return {
+        en: "Monsoon Season: Heavy rains in Malnad & Western Ghats; waterfalls (Jog, Abbey) are roaring, but beaches & water sports have rough sea restrictions.",
+        kn: "ಮಳೆಗಾಲದ ಸಮಯ: ಮಲೆನಾಡು ಹಾಗೂ ಪಶ್ಚಿಮ ಘಟ್ಟಗಳಲ್ಲಿ ಭಾರಿ ಮಳೆ; ಜಲಪಾತಗಳು ವೈಭವೋಪೇತವಾಗಿದ್ದರೂ, ಕಡಲತೀರಗಳಲ್ಲಿ ಸಮುದ್ರ ಪ್ರಕ್ಷುಬ್ಧವಾಗಿರುತ್ತದೆ."
+      };
+    }
+    if (m === 10) {
+      return {
+        en: "Festive Season: Mysuru Dasara month! Cultural grandeur, pleasant post-monsoon weather and green landscapes across Karnataka.",
+        kn: "ನಾಡಹಬ್ಬದ ಸಮಯ: ಮೈಸೂರು ದಸರಾ ಸಂಭ್ರಮ! ಹಿತಕರ ವಾತಾವರಣ ಮತ್ತು ಹಸಿರು ಕಂಗೊಳಿಸುವ ಸುಂದರ ದಿನಗಳು."
+      };
+    }
+    if (m === 11 || m === 12 || m <= 2) {
+      return {
+        en: "Peak Travel Season: Cool and clear winter weather! Kambala races active along coast; Hampi & Pattadakal festivals in Jan/Feb.",
+        kn: "ಅತ್ಯುತ್ತಮ ಪ್ರವಾಸ ಸಮಯ: ಹಿತವಾದ ಚಳಿಗಾಲ! ಕರಾವಳಿಯಲ್ಲಿ ಕಂಬಳ ಸಂಭ್ರಮ; ಜನವರಿ/ಫೆಬ್ರವರಿಯಲ್ಲಿ ಹಂಪಿ ಹಾಗೂ ಪಟ್ಟದಕಲ್ಲು ಉತ್ಸವಗಳು."
+      };
+    }
+    return {
+      en: "Summer Season: Pleasant hill stations (Coorg, Chikkamagaluru); plan early morning temple and heritage visits in northern districts.",
+      kn: "ಬೇಸಿಗೆಯ ಸಮಯ: ಕೊಡಗು, ಚಿಕ್ಕಮಗಳೂರಿನಂತಹ ಗಿರಿಧಾಮಗಳು ಹಿತಕರ; ಉತ್ತರ ಕರ್ನಾಟಕದ ತಾಣಗಳಿಗೆ ಬೆಳಗ್ಗಿನ ವೇಳೆಯಲ್ಲಿ ಭೇಟಿ ನೀಡಿ."
+    };
+  };
+
+  const advisory = getMonthAdvisory(prefs.month);
 
   return (
     <form onSubmit={handleSubmit} className="glass relative overflow-hidden rounded-[2rem] p-5 sm:p-7 lg:p-9 print:hidden">
@@ -146,9 +204,10 @@ export function PlannerForm({
               <Sparkles size={14} aria-hidden="true" />
               {t.planner.eyebrow}
             </p>
-            <h3 className="mt-2 font-display text-2xl font-bold text-white sm:text-3xl">
+            {/* Proper h2 heading ensuring correct heading hierarchy */}
+            <h2 className="mt-2 font-display text-2xl font-bold text-white sm:text-3xl">
               {t.planner.title}
-            </h3>
+            </h2>
           </div>
           <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[11px] font-medium text-white/60 sm:flex">
             <Sparkles size={12} className="text-gold" aria-hidden="true" />
@@ -159,172 +218,311 @@ export function PlannerForm({
         <div className="mt-6">
           <div className="flex flex-wrap items-end justify-between gap-2">
             <div>
-              <h4 className="text-sm font-semibold text-white sm:text-base">{t.planner.interests}</h4>
-              <p className="mt-1 text-xs text-white/55">{t.planner.interestsHint}</p>
+              <label className="text-sm font-bold text-white sm:text-base">
+                {t.planner.interests}
+              </label>
+              <p className="mt-0.5 text-xs text-white/50">{t.planner.interestsHint}</p>
             </div>
-            <span className="rounded-full border border-gold/20 bg-gold/5 px-3 py-1 text-[11px] font-semibold text-gold/80">
-              {localizeDigits(prefs.interests.length, lang)} / {localizeDigits(CATEGORIES.length, lang)}
-            </span>
+            {interestError ? (
+              <p className="flex items-center gap-1.5 text-xs font-semibold text-coral" role="alert">
+                <AlertCircle size={13} aria-hidden="true" />
+                {t.planner.interestError}
+              </p>
+            ) : null}
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2.5">
+          <div className="mt-3.5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             {CATEGORIES.map((category) => {
-              const Icon = interestIcons[category];
               const active = prefs.interests.includes(category);
+              const Icon = interestIcons[category] ?? Castle;
               return (
                 <motion.button
                   key={category}
                   type="button"
-                  whileHover={hoverMotion}
-                  whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                  transition={{ type: "spring", stiffness: 420, damping: 26 }}
-                  aria-pressed={active}
                   onClick={() => toggleInterest(category)}
-                  className={`inline-flex min-h-11 items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:text-sm ${
+                  whileHover={hoverMotion}
+                  whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+                  aria-pressed={active}
+                  className={`group relative flex items-center gap-2.5 rounded-2xl border p-3 text-left transition ${
                     active
-                      ? "border-gold/65 bg-gold/15 text-gold shadow-[0_0_24px_rgba(245,179,1,0.12)]"
-                      : "border-white/15 bg-white/[0.055] text-white/70 hover:border-white/30 hover:bg-white/[0.085] hover:text-white"
+                      ? "border-gold bg-gold/15 text-white shadow-[0_0_24px_rgba(245,179,1,0.22)]"
+                      : "border-white/10 bg-white/[0.035] text-white/70 hover:border-white/25 hover:bg-white/[0.06] hover:text-white"
                   }`}
                 >
-                  <Icon size={15} aria-hidden="true" />
-                  {t.planner.categories[category]}
+                  <span
+                    className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl border transition ${
+                      active
+                        ? "border-gold/60 bg-gold text-[#1a1205]"
+                        : "border-white/15 bg-white/[0.05] text-gold/80 group-hover:border-gold/40 group-hover:text-gold"
+                    }`}
+                  >
+                    <Icon size={15} aria-hidden="true" />
+                  </span>
+                  <span className="truncate text-xs font-semibold">
+                    {t.planner.categories[category] ?? category}
+                  </span>
                 </motion.button>
               );
             })}
           </div>
-
-          {interestError ? (
-            <p role="alert" className="mt-3 flex items-center gap-2 text-xs font-medium text-coral">
-              <AlertCircle size={14} aria-hidden="true" />
-              {t.planner.interestError}
-            </p>
-          ) : null}
         </div>
 
-        <div className="mt-8 grid gap-7 lg:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
-            <div className="flex items-center justify-between gap-3">
-              <label htmlFor="trip-days" className="flex items-center gap-2 text-sm font-semibold text-white">
-                <CalendarDays size={16} className="text-gold" aria-hidden="true" />
+        {/* Sliders: Days & Budget */}
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4 sm:p-5">
+            <div className="flex items-baseline justify-between gap-2">
+              <label htmlFor="planner-days" className="text-xs font-bold text-white sm:text-sm">
                 {t.planner.days}
               </label>
-              <span className="rounded-full bg-white/[0.08] px-3 py-1 text-sm font-bold text-gold">
-                {localizeDigits(prefs.days, lang)} {t.planner.daysUnit}
+              <span className="font-display text-2xl font-bold text-gold">
+                {localizeDigits(prefs.days, lang)}{" "}
+                <span className="text-xs font-normal text-white/50">{t.planner.daysUnit}</span>
               </span>
             </div>
+            <p className="mt-1 text-xs text-white/45">{t.planner.daysHint}</p>
             <input
-              id="trip-days"
+              id="planner-days"
               type="range"
               min={1}
               max={10}
               step={1}
               value={prefs.days}
               onChange={(event) => onChange({ days: Number(event.target.value) })}
-              style={{ "--range-progress": `${daysProgress}%` } as CSSProperties}
-              className="mt-5"
-              aria-valuetext={`${localizeDigits(prefs.days, lang)} ${t.planner.daysUnit}`}
+              style={{ "--progress": `${daysProgress}%` } as CSSProperties}
+              className="range-input mt-4 w-full"
             />
-            <div className="mt-2 flex justify-between text-[10px] font-medium text-white/35">
-              <span>{localizeDigits(1, lang)}</span>
-              <span>{localizeDigits(10, lang)}</span>
+            <div className="mt-2 flex justify-between text-[10px] text-white/35">
+              <span>1 {t.planner.daysUnit}</span>
+              <span>5 {t.planner.daysUnit}</span>
+              <span>10 {t.planner.daysUnit}</span>
             </div>
-            <p className="mt-3 text-xs text-white/50">{t.planner.daysHint}</p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
-            <div className="flex items-center justify-between gap-3">
-              <label htmlFor="trip-budget" className="flex items-center gap-2 text-sm font-semibold text-white">
-                <Wallet size={16} className="text-gold" aria-hidden="true" />
-                {t.planner.budget}
-              </label>
-              <div className="text-right">
-                <span className="block text-sm font-bold text-gold">{formatINR(prefs.budget, lang)}</span>
-                <span aria-live="polite" className="text-[10px] font-medium text-white/45">
-                  {t.planner.budgetTier}: {t.planner.tiers[budgetTier]}
+          <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4 sm:p-5">
+            <div className="flex items-baseline justify-between gap-2">
+              <div>
+                <label htmlFor="planner-budget" className="text-xs font-bold text-white sm:text-sm">
+                  {t.planner.budget}
+                </label>
+                <span className="ml-2 inline-flex items-center rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-semibold text-gold">
+                  {t.planner.tiers[budgetTier]}
                 </span>
               </div>
+              <span className="font-display text-2xl font-bold text-gold">
+                {formatINR(prefs.budget, lang)}
+              </span>
             </div>
+            <p className="mt-1 text-xs text-white/45">
+              {t.planner.budgetHint} (~{formatINR(Math.round(dailyBudget), lang)} / {lang === "kn" ? "ದಿನಕ್ಕೆ ಪ್ರತಿ ವ್ಯಕ್ತಿಗೆ" : "person/day"})
+            </p>
             <input
-              id="trip-budget"
+              id="planner-budget"
               type="range"
               min={3000}
-              max={100000}
+              max={200000}
               step={1000}
               value={prefs.budget}
               onChange={(event) => onChange({ budget: Number(event.target.value) })}
-              style={{ "--range-progress": `${budgetProgress}%` } as CSSProperties}
-              className="mt-5"
-              aria-valuetext={formatINR(prefs.budget, lang)}
+              style={{ "--progress": `${budgetProgress}%` } as CSSProperties}
+              className="range-input mt-4 w-full"
             />
-            <div className="mt-2 flex justify-between text-[10px] font-medium text-white/35">
+            <div className="mt-2 flex justify-between text-[10px] text-white/35">
               <span>{t.planner.budgetMin}</span>
-              <span>{t.planner.budgetMax}</span>
+              <span>₹50,000</span>
+              <span>{formatINR(200000, lang)}</span>
             </div>
-            <p className="mt-3 text-xs text-white/50">{t.planner.budgetHint}</p>
           </div>
         </div>
 
-        <div className="mt-7 grid gap-6 lg:grid-cols-2">
+        {/* Group Composition & Traveling With */}
+        <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.025] p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <p className="text-xs font-bold text-white sm:text-sm">{t.planner.companions}</p>
+              <p className="mt-0.5 text-xs text-white/45">{t.planner.groupDetails}</p>
+            </div>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-teal/30 bg-teal/10 px-3 py-1 text-xs font-bold text-teal">
+              <Users size={13} aria-hidden="true" />
+              {localizeDigits(travelers, lang)} {lang === "kn" ? "ಒಟ್ಟು ಪ್ರಯಾಣಿಕರು" : "Total Travelers"}
+            </span>
+          </div>
+
+          <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {COMPANIONS.map((companion) => {
+              const active = prefs.companions === companion;
+              const Icon = companionIcons[companion];
+              return (
+                <button
+                  key={companion}
+                  type="button"
+                  onClick={() => onChange({ companions: companion })}
+                  className={`flex items-center gap-2 rounded-xl border p-2.5 transition ${
+                    active
+                      ? "border-gold bg-gold/15 text-white font-semibold"
+                      : "border-white/10 bg-white/[0.035] text-white/60 hover:text-white"
+                  }`}
+                >
+                  <Icon size={14} className={active ? "text-gold" : "text-white/40"} aria-hidden="true" />
+                  <span className="text-xs">{t.planner.companionOptions[companion]}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Group member breakdown: Adults, Kids, Seniors */}
+          <div className="mt-4 grid grid-cols-3 gap-3 border-t border-white/10 pt-3">
+            <div className="flex flex-col items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] p-2.5">
+              <span className="text-[11px] font-medium text-white/70">{t.planner.adults}</span>
+              <div className="mt-2 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => updateAdults(-1)}
+                  className="grid h-6 w-6 place-items-center rounded-full border border-white/20 bg-white/10 text-white hover:bg-gold/20"
+                >
+                  <Minus size={11} />
+                </button>
+                <span className="w-5 text-center font-display text-sm font-bold text-gold">
+                  {localizeDigits(adults, lang)}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => updateAdults(1)}
+                  className="grid h-6 w-6 place-items-center rounded-full border border-white/20 bg-white/10 text-white hover:bg-gold/20"
+                >
+                  <Plus size={11} />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] p-2.5">
+              <span className="text-[11px] font-medium text-white/70">{t.planner.kids}</span>
+              <div className="mt-2 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => updateKids(-1)}
+                  className="grid h-6 w-6 place-items-center rounded-full border border-white/20 bg-white/10 text-white hover:bg-gold/20"
+                >
+                  <Minus size={11} />
+                </button>
+                <span className="w-5 text-center font-display text-sm font-bold text-gold">
+                  {localizeDigits(kids, lang)}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => updateKids(1)}
+                  className="grid h-6 w-6 place-items-center rounded-full border border-white/20 bg-white/10 text-white hover:bg-gold/20"
+                >
+                  <Plus size={11} />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] p-2.5">
+              <span className="text-[11px] font-medium text-white/70">{t.planner.seniors}</span>
+              <div className="mt-2 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => updateSeniors(-1)}
+                  className="grid h-6 w-6 place-items-center rounded-full border border-white/20 bg-white/10 text-white hover:bg-gold/20"
+                >
+                  <Minus size={11} />
+                </button>
+                <span className="w-5 text-center font-display text-sm font-bold text-gold">
+                  {localizeDigits(seniors, lang)}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => updateSeniors(1)}
+                  className="grid h-6 w-6 place-items-center rounded-full border border-white/20 bg-white/10 text-white hover:bg-gold/20"
+                >
+                  <Plus size={11} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Dietary & Stay Style Preferences */}
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
+            <label className="flex items-center gap-2 text-xs font-bold text-white sm:text-sm">
+              <UtensilsCrossed size={14} className="text-coral" aria-hidden="true" />
+              {t.planner.dietTitle}
+            </label>
+            <div className="mt-2.5 grid grid-cols-2 gap-2">
+              {(["Any", "Vegetarian", "Pure Veg", "Non-Veg"] as DietPreference[]).map((diet) => {
+                const active = (prefs.diet ?? "Any") === diet;
+                return (
+                  <button
+                    key={diet}
+                    type="button"
+                    onClick={() => onChange({ diet })}
+                    className={`rounded-xl border p-2 text-left text-xs transition ${
+                      active
+                        ? "border-coral bg-coral/15 font-semibold text-white"
+                        : "border-white/10 bg-white/[0.03] text-white/60 hover:text-white"
+                    }`}
+                  >
+                    {t.planner.diets[diet]}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
+            <label className="flex items-center gap-2 text-xs font-bold text-white sm:text-sm">
+              <Home size={14} className="text-teal" aria-hidden="true" />
+              {t.planner.stayTitle}
+            </label>
+            <div className="mt-2.5 grid grid-cols-2 gap-2">
+              {(["Any", "Homestay", "Heritage", "Budget", "Comfort", "Luxury"] as StayPreference[]).map(
+                (stayPref) => {
+                  const active = (prefs.stayPref ?? "Any") === stayPref;
+                  return (
+                    <button
+                      key={stayPref}
+                      type="button"
+                      onClick={() => onChange({ stayPref })}
+                      className={`rounded-xl border p-2 text-left text-xs transition ${
+                        active
+                          ? "border-teal bg-teal/15 font-semibold text-white"
+                          : "border-white/10 bg-white/[0.03] text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {t.planner.stays[stayPref]}
+                    </button>
+                  );
+                }
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Travel Style, Starting City & Month */}
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
           <div>
-            <p className="mb-3 flex items-center gap-2 text-sm font-semibold text-white">
-              <Compass size={15} className="text-gold" aria-hidden="true" />
+            <label htmlFor="travel-style" className="mb-2 flex items-center gap-2 text-xs font-semibold text-white/70">
+              <Compass size={14} className="text-gold" aria-hidden="true" />
               {t.planner.style}
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {TRAVEL_STYLES.map((style) => {
-                const Icon = styleIcons[style];
-                const active = prefs.style === style;
-                return (
-                  <button
-                    key={style}
-                    type="button"
-                    aria-pressed={active}
-                    onClick={() => onChange({ style })}
-                    className={`flex min-h-12 items-center gap-2 rounded-xl border px-3 py-2 text-left text-xs font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-                      active
-                        ? "border-gold/55 bg-gold/[0.12] text-gold"
-                        : "border-white/10 bg-white/[0.045] text-white/65 hover:border-white/25 hover:text-white"
-                    }`}
-                  >
-                    <Icon size={15} aria-hidden="true" />
+            </label>
+            <div className="relative">
+              <select
+                id="travel-style"
+                value={prefs.style}
+                onChange={(event) => onChange({ style: event.target.value as TravelStyle })}
+                className="h-12 w-full appearance-none rounded-xl border border-white/15 bg-[#111126]/80 px-3.5 pr-10 text-sm font-medium text-white outline-none transition focus:border-gold/60 focus:ring-2 focus:ring-gold/30"
+              >
+                {TRAVEL_STYLES.map((style) => (
+                  <option key={style} value={style} className="bg-[#111126]">
                     {t.planner.styles[style]}
-                  </button>
-                );
-              })}
+                  </option>
+                ))}
+              </select>
+              <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-gold/70">▾</span>
             </div>
           </div>
 
-          <div>
-            <p className="mb-3 flex items-center gap-2 text-sm font-semibold text-white">
-              <Users size={15} className="text-gold" aria-hidden="true" />
-              {t.planner.companions}
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {COMPANIONS.map((companion) => {
-                const Icon = companionIcons[companion];
-                const active = prefs.companions === companion;
-                return (
-                  <button
-                    key={companion}
-                    type="button"
-                    aria-pressed={active}
-                    onClick={() => onChange({ companions: companion })}
-                    className={`flex min-h-12 items-center gap-2 rounded-xl border px-3 py-2 text-left text-xs font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-                      active
-                        ? "border-gold/55 bg-gold/[0.12] text-gold"
-                        : "border-white/10 bg-white/[0.045] text-white/65 hover:border-white/25 hover:text-white"
-                    }`}
-                  >
-                    <Icon size={15} aria-hidden="true" />
-                    {t.planner.companionOptions[companion]}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-7 grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="start-city" className="mb-2 flex items-center gap-2 text-xs font-semibold text-white/70">
               <MapPin size={14} className="text-gold" aria-hidden="true" />
@@ -338,8 +536,8 @@ export function PlannerForm({
                 className="h-12 w-full appearance-none rounded-xl border border-white/15 bg-[#111126]/80 px-3.5 pr-10 text-sm font-medium text-white outline-none transition focus:border-gold/60 focus:ring-2 focus:ring-gold/30"
               >
                 {START_CITIES.map((city) => (
-                  <option key={city} value={city}>
-                    {t.planner.cities[city]}
+                  <option key={city} value={city} className="bg-[#111126]">
+                    {t.planner.cities[city] ?? city}
                   </option>
                 ))}
               </select>
@@ -360,7 +558,7 @@ export function PlannerForm({
                 className="h-12 w-full appearance-none rounded-xl border border-white/15 bg-[#111126]/80 px-3.5 pr-10 text-sm font-medium text-white outline-none transition focus:border-gold/60 focus:ring-2 focus:ring-gold/30"
               >
                 {t.planner.months.map((month, index) => (
-                  <option key={month} value={index + 1}>
+                  <option key={month} value={index + 1} className="bg-[#111126]">
                     {month}
                   </option>
                 ))}
@@ -368,6 +566,14 @@ export function PlannerForm({
               <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-gold/70">▾</span>
             </div>
           </div>
+        </div>
+
+        {/* Live Seasonal Advisory Banner for Chosen Month */}
+        <div className="mt-3.5 flex items-start gap-2.5 rounded-xl border border-amber-500/20 bg-amber-500/[0.05] p-3 text-xs text-amber-200/90">
+          <Info size={14} className="mt-0.5 shrink-0 text-amber-400" aria-hidden="true" />
+          <p className="leading-relaxed">
+            {lang === "kn" ? advisory.kn : advisory.en}
+          </p>
         </div>
 
         {savedPlaces.length > 0 ? (

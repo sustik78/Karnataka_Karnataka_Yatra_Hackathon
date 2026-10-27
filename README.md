@@ -1,229 +1,169 @@
-# Karnataka Yatra
+# Namma Yatra (ಕರ್ನಾಟಕ ಯಾತ್ರೆ)
+### AI Cultural Travel Concierge & Heritage Corridor Engine for Karnataka
 
-A bilingual English–Kannada travel planner for Karnataka, built for the **Kannada Digital Innovation Hackathon 2026 — Problem Statement 06: Travel & Tourism**.
+> **Kannada Digital Innovation Hackathon 2026 — Problem Statement 06: Travel & Tourism**  
+> **Ethos:** *ಅತಿಥಿ ದೇವೋ ಭವ (Atithi Devo Bhava — The guest is welcomed as the Divine)*
 
-Karnataka Yatra turns a short travel profile into a practical day-by-day route: handpicked places, realistic timings, local food, festivals, budget estimates, a map and useful Kannada phrases. It works immediately without any API key.
+---
 
-## Highlights
+## 🌟 Visual Showcase
 
-- **Full one-tap language switch** between English and Kannada. The whole interface changes instantly, including headings, labels, planner options, itinerary content, food, festivals, phrases and footer.
-- **Rule-based personal planner** with no paid API dependency. Interests, days, budget, travel pace, companions, starting city, month and saved places all influence the result.
-- **Official Karnataka Tourism photography** across the hero, destination cards and detail view, with a complete local image set for all 56 places.
-- **Day-by-day itinerary** with one region per day, local travel estimates, numbered stops, suggested timings, entry fees, local dishes and practical tips.
-- **Illustrated PDF download** with a photographic cover, day pages, route summary, budget breakdown and source notes, rendered in the current language.
-- **Interactive route map** with dark CARTO tiles, colour-coded day trails and numbered markers.
-- **Budget breakdown** for stay, food, transport and entry fees, with a budget tier and a clear over/under-budget note.
-- **56 handpicked Karnataka places** across eight travel regions, searchable and filterable by region and experience.
-- **Saved-place wishlist** that gives chosen destinations priority when the itinerary is generated.
-- **Food and festival guides**, route-aware dishes, and a Kannada phrase card with browser speech playback.
-- **Share, copy, print and PDF download** actions for the finished itinerary.
-- Responsive editorial travel design with photography, motion, reduced-motion support and print styles.
+<div align="center">
 
-## Tech Stack
+### 1. Cultural Hero & Regional Circuits
+![Karnataka Yatra Hero](public/screenshots/01_hero.png)
 
-- Next.js 14 App Router
-- React 18 and TypeScript
-- Tailwind CSS
-- Framer Motion
-- Recharts
-- Leaflet and React Leaflet
-- Lucide icons
-- html2canvas and jsPDF for the illustrated PDF export
-- Optional Google Gemini narration through `@google/generative-ai`
+### 2. Namma Yatra Sahayaka (Zero-API Private AI Travel Assistant)
+![Namma Yatra Sahayaka AI Assistant](public/screenshots/02_ai_assistant.png)
 
-## Requirements
+### 3. Demographic Planner & Live Seasonal Advisory
+![Intelligent Planner Form](public/screenshots/03_planner_form.png)
 
-- Node.js 18.17 or newer
-- npm
-- Internet access for map tiles and for the first dependency install
-- A modern browser
+### 4. Realistic Itinerary & Interactive Leaflet Route Map
+![Itinerary Timeline and Leaflet Map](public/screenshots/04_itinerary_map.png)
 
-## Quick Start
+### 5. Day Transit Corridors & KSRTC / Train Connections
+![Day Cards and Transit Options](public/screenshots/05_day_corridor_transit.png)
 
-```powershell
+### 6. 15-Circuit Heritage Catalog with Smart Pagination
+![Destinations Catalog](public/screenshots/06_destinations_catalog.png)
+
+</div>
+
+---
+
+## 💡 What Makes Karnataka Yatra Unique?
+
+1. **Zero-API Private AI Concierge ("Namma Yatra Sahayaka"):**
+   - Natural language input in English and ಕನ್ನಡ (e.g., *"4 days, Coorg, with parents, vegetarian"* or *"ಮಂಗಳೂರು ಮತ್ತು ಗೋಕರ್ಣ ೩ ದಿನ ಕಡಲತೀರ ಪ್ರವಾಸ"*).
+   - Operates **100% in-browser with zero paid external API dependencies**. No API keys needed for production Vercel deployment.
+   - 1-click **"Apply to Planner & Generate Itinerary"** bridge.
+   - Integrated bilingual speech recognition (`kn-IN`, `en-IN`) and native audio playback.
+
+2. **Geographically Accurate 15-Circuit Engine:**
+   - Corrects common geographical errors by organizing the state into 15 real districts/circuits:
+     *Bengaluru, Mysuru, Mangaluru, Uttara Kannada, Chikkamagaluru, Hassan, Shivamogga, Coorg, Hampi, Hubballi-Dharwad, Badami, Vijayapura, Kalaburagi, Chitradurga, Belagavi.*
+   - Proximity-weighted routing prevents unrealistic cross-state leaps.
+   - Fixed misclassifications (Gol Gumbaz belongs to Vijayapura under Heritage/Spiritual; Bidar Fort to Kalaburagi; Gokarna/Murudeshwar to Uttara Kannada; Belur/Halebidu to Hassan; Jog Falls to Shivamogga).
+
+3. **Demographic Group Budgeting & Stay Preferences:**
+   - Dedicated counters for **Adults, Children, and Seniors**.
+   - Accurately adjusts entry fees (child discounts, free senior entries) and room sharing costs.
+   - Dietary filters (Pure Veg / Sattvic, Veg, Non-Veg) and stay preferences (Homestays, Heritage, Budget, Luxury).
+
+4. **Live Seasonal Warnings & 2026 Calendar Sync:**
+   - Dynamic seasonal alerts: Western Ghats monsoon warnings (June–Sept), Jog Falls peak flow windows (July–Oct), and coastal Kambala buffalo racing season (Nov–March).
+   - All monument ticket rates and festival timings verified for the **2026 Tourism Calendar** (KSTDC / ASI).
+
+5. **Transit Corridors & 1-Click Sharing:**
+   - Real-world travel guidance between consecutive stops: driving distances (km), driving hours, and public transit links via **KSRTC Airavat / Rajahamsa express buses** and **South Western Railway trains**.
+   - Instant 1-click **WhatsApp Itinerary Export** (`https://api.whatsapp.com/send?text=...`) and formatted **PDF Download**.
+
+6. **Generational GI Artisans & Kannada Cultural Living Heritage:**
+   - Dedicated showcase celebrating Karnataka's GI-tagged craft clusters:
+     *Channapatna wooden lacquer toys, Bidriware silver inlay, Ilkal sarees, Mysore silk, Kinnal art, and Kasuti embroidery.*
+   - Authentic regional cuisine guide mapped across all 15 regions.
+   - **24-phrase Travel Kannada Phrasebook** with audio pronunciation playback.
+
+7. **Accessibility, Themes & Offline PWA:**
+   - High-contrast **Dark Glassmorphic Theme** and clean **Light Theme** with persistent state.
+   - Accessible heading hierarchy (`<h2>` $\to$ `<h3>`), `lang="kn"` tags on Kannada text, and deep-linkable URLs (`#place-[id]`).
+   - Progressive Web App (PWA) manifest for offline performance in low-connectivity tourist belts.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript 5.6
+- **Styling:** Tailwind CSS & Glassmorphism Design Tokens
+- **Animations:** Framer Motion
+- **Maps:** Leaflet & React-Leaflet
+- **Speech & Audio:** Web Speech API (Recognition & Synthesis) with Phonetic Fallback
+- **Export Engines:** jsPDF & html2canvas for PDF export; native WhatsApp sharing URI
+- **Deployment:** Vercel (100% serverless, zero API keys required)
+
+---
+
+## 🚀 Quick Start Guide
+
+### Prerequisites
+- Node.js 18.17+ or newer
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/sustik78/Karnataka_Karnataka_Yatra_Hackathon.git
+
+# Navigate to project directory
+cd Karnataka_Karnataka_Yatra_Hackathon
+
+# Install dependencies
 npm install
+
+# Run the local development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-On Windows, you can also double-click `run.bat`. It checks for Node.js, installs dependencies when the app or PDF packages are missing, opens the browser and starts the development server.
+### Windows 1-Click Launcher
+Double-click `run.bat` in the repository root to verify Node.js, install missing packages, and launch the dev server automatically.
 
-### Production build
+### Production Build
 
-```powershell
+```bash
 npm run build
 npm start
 ```
 
-`npm start` serves the production app at `http://localhost:3000`.
+---
 
-## Optional Gemini Narration
+## 📁 Repository Structure
 
-The planner, fallback narration, map data, budget and all core features work with **no API key**.
-
-To enable optional Gemini-enhanced storytelling:
-
-1. Copy `.env.example` to `.env.local`.
-2. Add a Gemini API key:
-
-```env
-GEMINI_API_KEY=your_key_here
-GEMINI_MODEL=gemini-flash-latest
 ```
-
-3. Restart the development server.
-
-The key is used only in the server-side `/api/narrate` route and is never exposed to the browser. If the key is absent, invalid, rate-limited or the request fails, the app silently falls back to the locally generated narration. Gemini is never allowed to invent places or change the route.
-
-## Main Features
-
-### Planner
-
-The planner asks for:
-
-- Interests: heritage, temples, wildlife, beaches, hills, waterfalls, coffee, food, adventure, spirituality and photography
-- Number of days
-- Total group budget
-- Travel pace
-- Companions
-- Starting city
-- Travel month
-- Optional saved places
-
-The result includes an at-a-glance summary, interest-match score, budget tier, route map, cost chart, day cards and local food and festival suggestions.
-
-### Itinerary Actions
-
-- **Regenerate**: creates a fresh deterministic variation
-- **Copy**: copies the full itinerary as text
-- **Print**: uses dedicated print styles
-- **Download PDF**: renders a designed A4 itinerary with photography, day-by-day stops, budget notes and photo credits
-- **Share link**: opens the native share sheet when available, otherwise copies a link that reopens the same plan
-- **Swap**: replaces one stop with another suitable unused place
-
-### Kannada Experience
-
-- The language toggle is available in the navigation, as a floating mobile control and in the footer.
-- Kannada mode uses Noto Sans Kannada and Baloo Tamma 2 with adjusted line heights.
-- Kannada numerals are used for day labels and localized counts.
-- Pronunciation playback uses the browser's `speechSynthesis` API and gracefully explains when a Kannada voice is unavailable.
-
-## Project Structure
-
-```text
-.
-├── app/
-│   ├── api/
-│   │   ├── narrate/route.ts     # Optional Gemini narration with local fallback
-│   │   └── plan/route.ts        # Rule-based itinerary endpoint
-│   ├── globals.css              # Design tokens, glassmorphism, map and print styles
-│   ├── layout.tsx               # Fonts, metadata, providers and global shell
-│   └── page.tsx                 # Main page
-├── components/
-│   ├── BudgetChart.tsx
-│   ├── CountUp.tsx
-│   ├── DayCard.tsx
-│   ├── Destinations.tsx
-│   ├── FestivalsCard.tsx
-│   ├── FoodFestivals.tsx
-│   ├── Footer.tsx
-│   ├── Hero.tsx
-│   ├── ItineraryPdf.tsx          # Hidden A4 pages used for the PDF export
-│   ├── ItineraryResult.tsx
-│   ├── LanguageToggle.tsx
-│   ├── LoadingPlan.tsx
-│   ├── MapClient.tsx
-│   ├── MeshBackground.tsx
-│   ├── Navbar.tsx
-│   ├── PhrasesCard.tsx
-│   ├── PhrasesSection.tsx
-│   ├── PlannerForm.tsx
-│   ├── PlannerSection.tsx
-│   ├── Reveal.tsx
-│   ├── SectionHeading.tsx
-│   ├── Skyline.tsx
-│   ├── TasteCard.tsx
-│   ├── ToastProvider.tsx
-│   ├── TripMap.tsx
-│   └── YatraApp.tsx
+├── app/                  # Next.js App Router (layout, globals.css, page)
+├── components/           # UI components
+│   ├── AiAssistantChat.tsx  # Zero-API bilingual AI concierge modal
+│   ├── ArtisansSection.tsx  # GI-tagged local crafts showcase
+│   ├── DayCard.tsx          # Itinerary stop cards with transit options
+│   ├── Destinations.tsx     # 15-region catalog with pagination
+│   ├── Hero.tsx             # Cultural greeting and stats
+│   ├── ItineraryResult.tsx  # Route map, budget breakdown, WhatsApp export
+│   ├── LanguageToggle.tsx   # Instant Kannada/English switcher
+│   ├── Navbar.tsx           # Navigation with Theme and AI assistant buttons
+│   ├── PhrasesCard.tsx      # 24-phrase interactive audio phrasebook
+│   ├── PlannerForm.tsx      # Group demographic & corridor planner
+│   ├── ThemeToggle.tsx      # Light/Dark mode switcher
+│   └── YatraApp.tsx         # Main application coordinator
 ├── data/
-│   ├── photos.ts                # Place, region, hero image and credit mapping
-│   └── places.ts                # Places, regions, dishes, festivals and phrases
-├── i18n/
-│   ├── en.ts
-│   ├── kn.ts
-│   └── LangProvider.tsx
+│   ├── photos.ts         # Verified photography archives
+│   └── places.ts         # 65 curated destinations across 15 circuits
+├── i18n/                 # Full bilingual translation dictionaries (en.ts, kn.ts)
 ├── lib/
-│   ├── format.ts                # INR, duration, date and Kannada numeral helpers
-│   ├── narration.ts             # Validated narration and local template fallback
-│   ├── pdf.ts                   # Font/image preparation and PDF assembly
-│   ├── planner.ts               # Scoring, routing, days, budget and swaps
-│   ├── storage.ts               # Saved-place session storage and events
-│   └── types.ts                 # Shared domain types
-├── public/
-│   ├── images/
-│   │   ├── hero/               # Five wide hero photographs
-│   │   └── places/             # One local photograph for each of the 56 places
-│   ├── hoysala-star-motif.svg
-│   └── hoysala-star.svg
-├── .env.example
-├── next.config.mjs
-├── package.json
-├── postcss.config.mjs
-├── run.bat
-├── tailwind.config.ts
-└── tsconfig.json
+│   ├── planner.ts        # Proximity-weighted corridor routing engine
+│   └── types.ts          # Core data models and schemas
+├── public/               # Static assets, PWA manifest, and screenshots
+│   ├── manifest.json     # PWA configuration
+│   └── screenshots/      # Product walkthrough screenshots
+└── Karnataka_Yatra_Hackathon_Submission_Video.mp4 # Full 5-min presentation & demo video
 ```
 
-## API Routes
+---
 
-### `POST /api/plan`
+## 🏛️ Event Submission Checklist
 
-Accepts planner preferences and returns a complete, typed itinerary. The same logic is available locally through `buildItinerary` in `lib/planner.ts`.
+- [x] Problem Statement chosen: **PS 06 — Travel & Tourism**
+- [x] Public GitHub repository with clean history and comprehensive documentation
+- [x] Presentation slides included (`Karnataka_Yatra_Hackathon_PPT.pdf` & `.pptx`)
+- [x] Deployed project URL ready for Vercel
+- [x] Explanation video (`Karnataka_Yatra_Hackathon_Submission_Video.mp4`) covering PPT presentation + Live Web Demo
 
-### `POST /api/narrate`
+---
 
-Accepts the current itinerary and language. It returns a sanitized narration payload with `source: "gemini" | "template"`.
+## 📜 Cultural Motto
 
-Safety behavior:
-
-- Rate-limited in memory
-- Validates the plan shape
-- Uses only place IDs already present in the itinerary
-- Sanitizes every returned field
-- Falls back to the local template on any error
-- Works without `GEMINI_API_KEY`
-
-## Data and Privacy
-
-- The 56 places, costs, dishes, festivals and phrases are stored locally in `data/places.ts`.
-- No database is required.
-- Saved places are stored in browser `sessionStorage`.
-- The selected language is stored in browser `localStorage`.
-- Shared plans are encoded in the URL fragment; they are not uploaded or persisted on a server.
-- Map tiles are loaded from CARTO/OpenStreetMap and require internet access.
-
-## Design Notes
-
-- Deep indigo base with maroon, gold, emerald, teal and violet mesh accents
-- Full-bleed tourism photography, editorial image cards and dark image overlays
-- Glass panels, gradient headings and restrained motion
-- Warm paper-toned PDF pages with serif English headings and Kannada-capable typography
-- Keyboard-visible focus rings and modal Escape handling
-- Responsive navigation and a floating mobile language toggle
-- Dedicated print styles and reduced-motion support
-
-## Photography
-
-Travel photography is sourced from [Karnataka Tourism](https://karnatakatourism.org/) (Government of Karnataka) and stored locally in `public/images/` so the interface and PDF export do not depend on remote image requests.
-
-The images are representative travel imagery. Opening hours, entry rules, routes and costs can change; confirm details with the relevant site or authority before travelling. Karnataka Yatra is an independent hackathon project and is not an official Government of Karnataka website.
-
-## Credits
-
-Built with respect for Karnataka's people, places, food and languages.
-
-Photography: Karnataka Tourism, Government of Karnataka.
-
-Kannada Digital Innovation Hackathon 2026 · Problem Statement 06 — Travel & Tourism
+**ಕಾಯಾ ವಾಚಾ ಮನಸಾ ಕರ್ನಾಟಕ · ಸಿರಿಗನ್ನಡಂ ಗೆಲ್ಗೆ, ಸಿರಿಗನ್ನಡಂ ಬಾಳ್ಗೆ!**  
+*Karnataka Yatra — Built with deep respect for Karnataka's heritage, land, people, and living Kannada language.*

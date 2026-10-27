@@ -2,10 +2,11 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import type { Variants } from "framer-motion";
-import { ArrowDown, ArrowRight, Compass, Languages, MapPin, Mountain, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, Bot, Compass, Languages, MapPin, Mountain, Sparkles } from "lucide-react";
 import { HERO_PHOTOS } from "@/data/photos";
 import { REGION_NAMES_EN, REGION_NAMES_KN } from "@/data/places";
 import { useLang } from "@/i18n/LangProvider";
+import { OPEN_AI_ASSISTANT_EVENT } from "@/components/Navbar";
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -126,6 +127,14 @@ export function Hero() {
                   <Compass size={18} aria-hidden="true" />
                   {t.hero.secondaryCta}
                 </a>
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent(OPEN_AI_ASSISTANT_EVENT))}
+                  className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-full border border-gold/40 bg-gold/15 px-6 py-3 text-sm font-bold text-gold backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:border-gold hover:bg-gold hover:text-[#1a1205] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:text-base"
+                >
+                  <Bot size={18} aria-hidden="true" />
+                  {t.hero.chatCta}
+                </button>
               </motion.div>
 
               <motion.div variants={item} className="mt-7 flex flex-wrap gap-2">

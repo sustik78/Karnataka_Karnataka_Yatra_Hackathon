@@ -14,6 +14,8 @@ import { LoadingPlan } from "@/components/LoadingPlan";
 import { ItineraryResult } from "@/components/ItineraryResult";
 import { ADD_TO_TRIP_EVENT, readSavedPlaceIds, writeSavedPlaceIds } from "@/lib/storage";
 
+export const APPLY_ASSISTANT_PLAN_EVENT = "karnataka-yatra-apply-assistant-plan";
+
 const DEFAULT_PREFS: Prefs = {
   interests: ["Heritage", "Food"],
   days: 4,
@@ -183,6 +185,20 @@ export function PlannerSection() {
     window.addEventListener(ADD_TO_TRIP_EVENT, handler as EventListener);
     return () => window.removeEventListener(ADD_TO_TRIP_EVENT, handler as EventListener);
   }, [addSavedPlace]);
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const detail = (event as CustomEvent<{ prefs?: Partial<Prefs> }>).detail;
+      if (!detail || !detail.prefs) return;
+      setPrefs((current) => {
+        const next = { ...current, ...detail.prefs };
+        void runPlan(next);
+        return next;
+      });
+    };
+    window.addEventListener(APPLY_ASSISTANT_PLAN_EVENT, handler as EventListener);
+    return () => window.removeEventListener(APPLY_ASSISTANT_PLAN_EVENT, handler as EventListener);
+  }, [runPlan]);
 
   useEffect(() => {
     if (!ready || sharedHandledRef.current) return;

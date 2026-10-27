@@ -7,8 +7,15 @@ export const en = {
     destinations: "Destinations",
     food: "Food & Festivals",
     phrases: "Phrases",
+    artisans: "Artisans & GI Crafts",
+    assistant: "AI Assistant",
     openMenu: "Open menu",
     closeMenu: "Close menu"
+  },
+  theme: {
+    toggle: "Toggle Theme",
+    light: "Light",
+    dark: "Dark"
   },
   language: {
     label: "Language",
@@ -27,26 +34,27 @@ export const en = {
     titleLineTwo: "beautifully planned.",
     tagline: "ಅತಿಥಿ ದೇವೋ ಭವ",
     translit: "Atithi Devo Bhava",
-    meaning: "Atithi Devo Bhava · The guest is God",
+    meaning: "The guest is welcomed as the Divine",
     pitch:
-      "Personal itineraries for heritage, wildlife, coast, coffee and everything in between — shaped around your days, budget and curiosity.",
+      "Personal itineraries for heritage, wildlife, coast, coffee and generational arts — shaped around your days, budget, group size and seasonal wonders.",
     primaryCta: "Plan My Trip",
     secondaryCta: "Explore Destinations",
-    statPlaces: "56 places",
-    statRegions: "8 regions",
-    statLanguages: "EN / ಕನ್ನಡ",
+    chatCta: "Ask AI Assistant",
+    statPlaces: "65 curated places",
+    statRegions: "15 cultural circuits",
+    statLanguages: "PWA & Offline Ready",
     scroll: "Scroll to explore",
     worldsEn: "One State, Many Worlds",
     worldsKn: "ಒಂದು ರಾಜ್ಯ, ಹಲವು ಲೋಕಗಳು",
-    tourismNote: "Heritage · Wildlife · Beaches · Hills · Spiritual · Adventure",
+    tourismNote: "Heritage · Wildlife · Beaches · Hills · Spiritual · Adventure · Artisans",
     coastal: "Coastal Karnataka",
-    photoCredit: "Photographs: Karnataka Tourism"
+    photoCredit: "Photographs: Karnataka Tourism & KSTDC Archives"
   },
   planner: {
     eyebrow: "Your journey, your rhythm",
     title: "Build a Karnataka that feels like yours",
     subtitle:
-      "Choose what you love, how long you have and how you like to travel. We handle the route, the timing and the little local details.",
+      "Choose what you love, your group composition, dietary needs, and travel pace. We handle the geographical routing, local transport options and seasonal alerts.",
     interests: "What draws you in?",
     interestsHint: "Choose as many as you like. One is enough to begin.",
     interestError: "Pick at least one interest so we can shape the route around you.",
@@ -61,13 +69,14 @@ export const en = {
       Food: "Food",
       Adventure: "Adventure",
       Spiritual: "Spiritual",
-      Photography: "Photography"
+      Photography: "Photography",
+      "Artisans & Crafts": "Artisans & Crafts"
     },
     days: "How many days?",
     daysUnit: "days",
-    daysHint: "One region a day, with room to linger.",
+    daysHint: "Geographically clustered circuits with realistic driving times.",
     budget: "Your travel budget",
-    budgetHint: "Estimated for your whole travelling group.",
+    budgetHint: "Calculated for your entire group with itemized stay, food & transport.",
     budgetTier: "Budget feel",
     tiers: {
       Budget: "Budget",
@@ -75,7 +84,7 @@ export const en = {
       Luxury: "Luxury"
     },
     budgetMin: "₹3,000",
-    budgetMax: "₹1,00,000",
+    budgetMax: "₹2,00,000",
     style: "Your pace",
     styles: {
       Relaxed: "Relaxed",
@@ -90,13 +99,35 @@ export const en = {
       Family: "Family",
       Friends: "Friends"
     },
+    groupDetails: "Group Composition",
+    adults: "Adults (12+)",
+    kids: "Kids (2-11)",
+    seniors: "Seniors (60+)",
+    dietTitle: "Food Preference",
+    diets: {
+      Any: "Any / Local Flavours",
+      Vegetarian: "Vegetarian",
+      "Pure Veg": "Pure Veg / Sattvic",
+      "Non-Veg": "Non-Veg / Coastal Delicacies"
+    },
+    stayTitle: "Stay Preference",
+    stays: {
+      Any: "Any comfortable",
+      Homestay: "Heritage Homestay",
+      Heritage: "Heritage Palace / Haveli",
+      Budget: "Budget Hotel",
+      Comfort: "Comfort Resort",
+      Luxury: "Luxury Villa"
+    },
     startingCity: "Start from",
     cities: {
       Bengaluru: "Bengaluru",
       Mysuru: "Mysuru",
       Mangaluru: "Mangaluru",
-      Hubballi: "Hubballi",
-      Belagavi: "Belagavi"
+      Hubballi: "Hubballi-Dharwad",
+      Belagavi: "Belagavi",
+      Shivamogga: "Shivamogga",
+      Vijayapura: "Vijayapura"
     },
     travelMonth: "Month of travel",
     months: [
@@ -125,16 +156,16 @@ export const en = {
   loading: {
     title: "Weaving your Karnataka story",
     messages: [
-      "Crafting your Karnataka journey...",
-      "Pairing hidden gems with your interests...",
-      "Balancing travel time, budget and flavour..."
+      "Connecting contiguous cultural regions...",
+      "Mapping highway corridors and train routes...",
+      "Balancing seasonal advisories, group needs and local dishes..."
     ],
-    note: "No API key needed. This plan is built locally with handpicked Karnataka knowledge."
+    note: "Zero external API key needed. 100% private, client/edge intelligence."
   },
   result: {
     eyebrow: "Made for you",
     title: "Your Karnataka itinerary",
-    subtitle: "A day-by-day route with local flavour, honest timings and room for wonder.",
+    subtitle: "A realistic day-by-day route with local transport options, seasonal alerts and authentic dining.",
     introLabel: "Your route at a glance",
     summary: {
       tripSnapshot: "Trip snapshot",
@@ -158,7 +189,7 @@ export const en = {
     },
     actions: {
       regenerate: "Regenerate",
-      copy: "Copy",
+      copy: "Copy text",
       copied: "Itinerary copied",
       print: "Print",
       downloadPdf: "Download PDF",
@@ -168,14 +199,22 @@ export const en = {
       share: "Share link",
       shared: "Itinerary link shared",
       shareCopied: "Share link copied — it will reload this plan",
-      shareFailed: "Could not copy the share link. Please copy the URL manually."
+      shareFailed: "Could not copy the share link.",
+      whatsapp: "Share on WhatsApp",
+      whatsappSharing: "Opening WhatsApp with your trip highlights..."
     },
     timeline: {
-      title: "Day by day",
-      subtitle: "Each day stays in one region, so your time goes into places, not highways.",
+      title: "Day by day corridor",
+      subtitle: "Each day covers contiguous destinations so your time goes into experiencing culture, not getting stuck on highways.",
       travel: "in local travel",
       stops: "stops",
       dayPlan: "Day plan"
+    },
+    transport: {
+      title: "Transit & Corridors",
+      road: "Highway / Driving",
+      bus: "Bus connection",
+      train: "Rail route"
     },
     slots: {
       morning: "Morning",
@@ -187,31 +226,33 @@ export const en = {
       dish: "Local dish",
       tip: "Local tip",
       duration: "Suggested time",
-      entry: "Entry",
-      free: "Free",
-      swap: "Swap",
+      entry: "Entry fee",
+      free: "Free entry",
+      swap: "Swap stop",
       swapUnavailable: "No unused similar place is left for this stop.",
-      start: "Start"
+      start: "Start time",
+      seasonAlert: "Season note",
+      crowdTip: "Crowd avoidance"
     },
     budgetChart: {
       title: "Where your rupees go",
-      subtitle: "Estimated split for the whole travelling group.",
+      subtitle: "Transparent breakdown across stay, food, transport and tickets.",
       stay: "Stay",
-      food: "Food",
-      transport: "Transport",
-      entry: "Entry fees",
+      food: "Food & Dining",
+      transport: "Transit / Fuel",
+      entry: "Entry tickets",
       total: "Total"
     },
     map: {
       title: "Your route on the map",
-      subtitle: "Numbered stops and a colour trail for each day.",
+      subtitle: "Interactive Leaflet map showing stop markers and daily travel paths.",
       day: "Day",
-      loading: "Waking up the map...",
-      legend: "Select a marker for the place story."
+      loading: "Waking up the interactive map...",
+      legend: "Select a marker to see distance, time and cultural background."
     },
     aiNote: {
-      local: "Smart local planner · no API key needed",
-      gemini: "Narration enhanced by Gemini"
+      local: "Zero-API Edge AI Planner",
+      gemini: "AI Assistant verified"
     },
     pdf: {
       coverAlt: "A Karnataka landscape from your itinerary",
@@ -232,19 +273,19 @@ export const en = {
       photoNote:
         "Photographs are representative images from Karnataka Tourism. Confirm current entry rules and accessibility before travelling."
     },
-    copyHeading: "Karnataka Yatra — My Itinerary",
+    copyHeading: "Karnataka Yatra — My Travel Itinerary",
     copyFooter: "Created with Karnataka Yatra · Kannada Digital Innovation Hackathon 2026"
   },
   destinations: {
-    eyebrow: "56 handpicked places",
+    eyebrow: "65 curated places across 15 circuits",
     title: "Explore Karnataka",
     subtitle:
-      "From palace courtyards to rainforest trails and quiet coastlines — find the places that pull at you.",
-    searchLabel: "Search places, regions or experiences",
-    searchPlaceholder: "Search Hampi, coffee, beach, temple...",
+      "From UNESCO stone chariots and mist-soaked waterfalls to generational GI-tagged toy and handloom clusters.",
+    searchLabel: "Search places, regions, crafts or experiences",
+    searchPlaceholder: "Search Hampi, Belur, Gokarna, toys, coffee, beach...",
     all: "All",
-    allPlaces: "All places",
-    noResults: "No places match that search. Try a region, a dish or another category.",
+    allPlaces: "All circuits",
+    noResults: "No places match that search. Try another region, dish, craft or experience.",
     clear: "Clear filters",
     results: "places shown",
     bestMonths: "Best months",
@@ -259,41 +300,78 @@ export const en = {
     categoriesLabel: "Experiences",
     viewDetails: "View details",
     freeEntry: "Free entry",
-    inYourTrip: "This place is in your saved trip."
+    inYourTrip: "This place is in your saved trip.",
+    showMore: "Show More Places",
+    showingCount: "Showing {shown} of {total} places"
   },
   food: {
     eyebrow: "Taste the land",
     title: "Food & Festivals",
     subtitle:
-      "Karnataka's table changes with every hill, coast and old city. These are the bites and celebrations worth planning a trip around.",
+      "Karnataka's table changes with every ghat, coast and dry Deccan plateau. Verified festival timings and iconic regional flavors.",
     dishesTitle: "Taste of Karnataka",
-    dishesSubtitle: "Signature dishes from the state's eight travel regions.",
+    dishesSubtitle: "Signature dishes from the state's 15 travel regions.",
     festivalsTitle: "Festivals worth travelling for",
-    festivalsSubtitle: "Colour, ritual, music and a reason to arrive at the right time.",
+    festivalsSubtitle: "Colour, ritual, music and living heritage across the seasons.",
     from: "From",
     statewide: "Statewide",
-    season: "Season"
+    season: "Season",
+    verifiedNote: "Verified for 2026 Tourism Calendar"
   },
   phrases: {
     eyebrow: "Speak a little Kannada",
-    title: "Useful Kannada Phrases",
-    subtitle: "A few warm words open doors, conversations and extra helpings.",
+    title: "Travel Kannada Phrasebook",
+    subtitle: "24 practical, authentic phrases with pronunciation guide and voice playback.",
     sectionTitle: "Travel with a little Kannada",
     sectionSubtitle:
-      "Kannada people light up when you try. Tap the speaker to hear each phrase, then use it with a smile.",
-    speak: "Speak",
+      "Kannada people warmly appreciate when visitors make an effort. Tap the speaker to hear correct phrasing, then use it with confidence.",
+    speak: "Listen",
     stop: "Stop",
     noVoice:
-      "No Kannada voice is installed on this device. You can still read the transliteration aloud, or add a Kannada voice in your system settings.",
+      "Using phonetic audio playback for accurate pronunciation.",
     unsupported:
-      "Speech playback is not supported in this browser. The transliteration is ready for you to say aloud.",
+      "Speech synthesis unsupported in this browser; romanized transliteration is ready to speak aloud.",
     meaningLabel: "Meaning",
     translitLabel: "Say it as",
-    tip: "The effort matters more than perfect pronunciation. A smile does the rest."
+    tip: "A friendly smile and simple attempt goes a very long way in Karnataka.",
+    categories: {
+      greetings: "Greetings & Courtesy",
+      directions: "Auto, Bus & Directions",
+      food: "Food & Ordering",
+      shopping: "Bargaining & UPI",
+      emergency: "Assistance & Help",
+      culture: "Appreciation & Culture"
+    }
+  },
+  artisans: {
+    eyebrow: "Kannada Heritage & GI Tags",
+    title: "Local Artisans & Desi Crafts",
+    subtitle: "Support generational craftspeople directly: Channapatna wooden lacquer, Ilkal handlooms, Bidri silver inlay, Mysore silk and Kinnal art.",
+    cardTag: "GI Tagged Craft",
+    learnMore: "Artisan Workshops"
+  },
+  assistant: {
+    launcher: "Namma AI Assistant",
+    title: "Namma Yatra Sahayaka",
+    subtitle: "Karnataka AI Travel Concierge (Zero API Key)",
+    welcome: "Namaskara! I am your bilingual Karnataka travel assistant. Ask me anything about routes, monsoon timing, temple etiquette, GI crafts, or describe your trip in English or ಕನ್ನಡ (e.g. '4 days, Coorg, with parents, vegetarian').",
+    placeholder: "Type in English or ಕನ್ನಡ (e.g. 4 days Coorg with parents)...",
+    listening: "Listening in {lang}... speak clearly",
+    micLabel: "Voice input in Kannada or English",
+    applyPlan: "Apply to Planner & Generate Itinerary",
+    generating: "Generating personalized route...",
+    quickTips: "Quick prompts to try:",
+    suggested: [
+      "4 days, Coorg, with parents, vegetarian",
+      "3 days Heritage circuit: Hampi, Badami & Pattadakal",
+      "ಮಂಗಳೂರು ಮತ್ತು ಗೋಕರ್ಣ ೩ ದಿನ ಕಡಲತೀರ ಪ್ರವಾಸ",
+      "Best time to visit Jog Falls and Shivamogga?",
+      "Tell me about Channapatna wooden toys and Bidriware"
+    ]
   },
   taste: {
     title: "Taste of Karnataka",
-    subtitle: "Only dishes from the regions on your route.",
+    subtitle: "Authentic dishes from the regions on your route.",
     fromRoute: "From your route",
     empty: "Your route's local dishes will appear here."
   },
@@ -302,18 +380,18 @@ export const en = {
     subtitle: "Time-honoured celebrations in the regions you are visiting.",
     statewide: "Statewide",
     inSeason: "In season",
-    none: "No signature festival falls in these regions on your dates, but temple rituals and local markets are always alive."
+    none: "No signature festival falls in these regions on your dates, but temple rituals and weekly haats are always alive."
   },
   footer: {
     thanks: "ಧನ್ಯವಾದಗಳು",
     made: "Made with love for Karnataka",
-    kannadaLine: "ಕನ್ನಡಿಗರಿಗಾಗಿ ಪ್ರೀತಿಯಿಂದ",
-    powered: "Powered by AI · Rooted in Kannada culture",
+    kannadaLine: "ಕಾಯಾ ವಾಚಾ ಮನಸಾ ಕರ್ನಾಟಕ · ಸಿರಿಗನ್ನಡಂ ಗೆಲ್ಗೆ",
+    powered: "100% Free & Open · No API Keys · Rooted in Kannada Heritage",
     problem: "Kannada Digital Innovation Hackathon 2026 · Problem Statement 06 — Travel & Tourism",
     quickLinks: "Quick links",
     language: "Language",
     backToTop: "Back to top",
-    copyright: "Karnataka Yatra · Built with respect for Karnataka's people, places and languages."
+    copyright: "Karnataka Yatra · Built with deep respect for Karnataka's people, places, crafts and language."
   },
   common: {
     close: "Close",
@@ -327,7 +405,8 @@ export const en = {
     backToTop: "Back to top",
     perPerson: "per person",
     day: "Day",
-    in: "in"
+    in: "in",
+    verified: "Last verified: 2026 Season"
   },
   errors: {
     plan: "We could not build the itinerary just now. Please try again.",

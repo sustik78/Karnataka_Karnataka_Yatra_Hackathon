@@ -579,3 +579,113 @@ input[type="search"]::-webkit-search-decoration {
 .leaflet-control-attribution a {
   color: #f5b301 !important;
 }
+
+/* Light Mode Overrides */
+html.light {
+  color-scheme: light;
+  background-color: #f8fafc;
+}
+
+html.light body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+html.light body::before {
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(245, 179, 1, 0.12), transparent 45%),
+    radial-gradient(ellipse at 85% 20%, rgba(255, 122, 89, 0.1), transparent 40%),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 45%, #e2e8f0 100%);
+}
+
+html.light .glass {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  color: #0f172a !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+html.light .glass-strong {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+  color: #0f172a !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+}
+
+html.light .glass-card {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  color: #0f172a !important;
+}
+
+html.light main:not(#home) .text-white,
+html.light footer .text-white,
+html.light header .text-white {
+  color: #0f172a !important;
+}
+
+html.light main:not(#home) .text-white\/90,
+html.light main:not(#home) .text-white\/80,
+html.light main:not(#home) .text-white\/70,
+html.light footer .text-white\/80,
+html.light footer .text-white\/70 {
+  color: #334155 !important;
+}
+
+html.light main:not(#home) .text-white\/65,
+html.light main:not(#home) .text-white\/60,
+html.light main:not(#home) .text-white\/55,
+html.light main:not(#home) .text-white\/50,
+html.light footer .text-white\/65,
+html.light footer .text-white\/55 {
+  color: #475569 !important;
+}
+
+html.light main:not(#home) .text-white\/45,
+html.light main:not(#home) .text-white\/40,
+html.light main:not(#home) .text-white\/35,
+html.light main:not(#home) .text-white\/30,
+html.light footer .text-white\/40,
+html.light footer .text-white\/30 {
+  color: #64748b !important;
+}
+
+html.light main:not(#home) .border-white\/10,
+html.light main:not(#home) .border-white\/15,
+html.light main:not(#home) .border-white\/20,
+html.light footer .border-white\/10 {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+html.light main:not(#home) .bg-white\/10,
+html.light main:not(#home) .bg-white\/\[0\.04\],
+html.light main:not(#home) .bg-white\/\[0\.05\],
+html.light main:not(#home) .bg-white\/\[0\.06\],
+html.light main:not(#home) .bg-white\/\[0\.08\],
+html.light footer .bg-white\/\[0\.04\] {
+  background-color: rgba(15, 23, 42, 0.04) !important;
+}
+
+/* Keep hero content on dark photo clearly legible in light mode */
+html.light #home .text-white {
+  color: #ffffff !important;
+}
+html.light #home .text-white\/70 {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+html.light #home .text-white\/80 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+html.light #home .text-white\/50,
+html.light #home .text-white\/55 {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+html.light #home .border-white\/15,
+html.light #home .border-white\/20,
+html.light #home .border-white\/25 {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+html.light #home .bg-black\/20,
+html.light #home .bg-black\/25 {
+  background-color: rgba(0, 0, 0, 0.35) !important;
+}
